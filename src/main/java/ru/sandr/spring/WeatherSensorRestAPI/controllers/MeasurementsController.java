@@ -13,6 +13,7 @@ import ru.sandr.spring.WeatherSensorRestAPI.dto.MeasurementDTO;
 import ru.sandr.spring.WeatherSensorRestAPI.model.Measurement;
 import ru.sandr.spring.WeatherSensorRestAPI.services.MeasurementService;
 import ru.sandr.spring.WeatherSensorRestAPI.util.Converter;
+import ru.sandr.spring.WeatherSensorRestAPI.util.measurement.CountRainingDaysResponse;
 import ru.sandr.spring.WeatherSensorRestAPI.util.measurement.MeasurementErrorResponse;
 import ru.sandr.spring.WeatherSensorRestAPI.util.measurement.MeasurementNotAddedException;
 import ru.sandr.spring.WeatherSensorRestAPI.util.measurement.MeasurementValidator;
@@ -65,6 +66,11 @@ public class MeasurementsController {
     @ExceptionHandler
     private ResponseEntity<MeasurementErrorResponse> exceptionHandler(MeasurementNotAddedException exception) {
         return new ResponseEntity<>(new MeasurementErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/rainyDaysCount")
+    public ResponseEntity<CountRainingDaysResponse> getCountRainingDays() {
+        return new ResponseEntity<>(new CountRainingDaysResponse(measurementService.countRainingDays()), HttpStatus.OK);
     }
 
 }

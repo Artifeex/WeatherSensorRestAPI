@@ -7,4 +7,5 @@ import ru.sandr.spring.WeatherSensorRestAPI.model.Measurement;
 @Repository
 public interface MeasurementRepository extends JpaRepository<Measurement, Integer> {
 
+    int countMeasurementByIsRaining(boolean isRaining);
 }
