@@ -1,27 +1,32 @@
 package ru.sandr.spring.WeatherSensorRestAPI.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 
 public class MeasurementDTO {
 
 
-    @NotEmpty(message = "Field value(temperature) should not be empty")
+    @NotNull(message = "Field value(temperature) should not be empty")
     @Min(value = -100, message = "Field value(temperature) should be greater than -100")
     @Max(value = 100, message = "Field value(temperature) should be smaller than 100")
-    private double temperature;
+    private Double temperature;
 
-    @NotEmpty(message = "Field raining should not be empty")
-    private boolean isRaining;
+    @NotNull(message = "Field raining should not be empty")
+    private Boolean isRaining;
 
-    @NotEmpty(message = "Field sensor should not be empty")
-    private SensorDTO sensorSource;
+    //@NotBlank(message = "Field sensor should not be empty")
+    private SensorDTO sourceSensor;
 
     public MeasurementDTO() {
     }
 
+    public MeasurementDTO(double temperature, boolean isRaining, SensorDTO sourceSensor) {
+        this.temperature = temperature;
+        this.isRaining = isRaining;
+        this.sourceSensor = sourceSensor;
+    }
+
+    @JsonProperty("value")
     public double getTemperature() {
         return temperature;
     }
@@ -31,6 +36,7 @@ public class MeasurementDTO {
         this.temperature = temperature;
     }
 
+    @JsonProperty("raining")
     public boolean isRaining() {
         return isRaining;
     }
@@ -40,12 +46,13 @@ public class MeasurementDTO {
         isRaining = raining;
     }
 
-    public SensorDTO getSensorSource() {
-        return sensorSource;
+    @JsonProperty("sensor")
+    public SensorDTO getSourceSensor() {
+        return sourceSensor;
     }
 
     @JsonProperty("sensor")
-    public void setSensorSource(SensorDTO sensorSource) {
-        this.sensorSource = sensorSource;
+    public void setSourceSensor(SensorDTO sourceSensor) {
+        this.sourceSensor = sourceSensor;
     }
 }

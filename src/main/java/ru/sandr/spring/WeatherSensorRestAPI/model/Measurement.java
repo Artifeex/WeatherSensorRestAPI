@@ -3,6 +3,7 @@ package ru.sandr.spring.WeatherSensorRestAPI.model;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "measurement")
@@ -14,20 +15,27 @@ public class Measurement {
     private int id;
 
     @Column(name = "temperature")
-    private int temperature;
+    private double temperature;
 
     @Column(name = "is_raining")
     private boolean isRaining;
+
+    @Column(name = "measurement_time")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date createdTime;
 
     @ManyToOne
     @JoinColumn(name = "sensor_id", referencedColumnName = "id")
     private Sensor sourceSensor;
 
-
-    private Timestamp createdTime;
-
     public Measurement() {
 
+    }
+
+    public Measurement(double temperature, boolean isRaining, Sensor sourceSensor) {
+        this.temperature = temperature;
+        this.isRaining = isRaining;
+        this.sourceSensor = sourceSensor;
     }
 
     public int getId() {
@@ -38,7 +46,7 @@ public class Measurement {
         this.id = id;
     }
 
-    public int getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
@@ -60,5 +68,13 @@ public class Measurement {
 
     public void setSourceSensor(Sensor sourceSensor) {
         this.sourceSensor = sourceSensor;
+    }
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
     }
 }
